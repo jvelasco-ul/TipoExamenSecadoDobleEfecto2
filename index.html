@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Solucionario Interactivo Paso a Paso - Evaporador de Doble Efecto (Jugo de Naranja)">
+    <title>Preparación Examen 2: Evaporación Doble Efecto | Procesos Industriales</title>
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #ff6600;
+            --dark-bg: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --accent-green: #00cc66;
+            --accent-purple: #9933ff;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        .main-header {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid var(--secondary-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .navbar-brand img { filter: drop-shadow(0 0 10px var(--secondary-color)); }
+        .navbar-brand span {
+            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.4rem;
+            background: linear-gradient(45deg, var(--secondary-color), #ff9933);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .lab-title {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(45deg, var(--secondary-color), #ff9933);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center; margin: 2rem 0 0.5rem 0; font-size: 1.8rem; font-weight: 900;
+        }
+        .progress-bar-custom {
+            height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px;
+            margin: 1.5rem 0 2.5rem 0; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--secondary-color), #ff9933);
+            width: 8.33%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .step-container { display: none; animation: fadeIn 0.6s ease-out; }
+        .step-container.active { display: block; }
+        .info-card {
+            background: var(--card-bg); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+            padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--primary-color);
+        }
+        .info-card h4 { font-family: 'Orbitron', sans-serif; color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.2rem; }
+        .engineering-note {
+            background: rgba(153, 51, 255, 0.15); border: 1px solid rgba(153, 51, 255, 0.3);
+            border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.95rem;
+        }
+        .engineering-note i { color: var(--accent-purple); }
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; cursor: pointer;
+            transition: all 0.2s; display: flex; align-items: center;
+        }
+        .quiz-option:hover { background: rgba(255, 102, 0, 0.1); border-color: var(--secondary-color); }
+        .quiz-option input[type="radio"] { margin-right: 1rem; accent-color: var(--secondary-color); transform: scale(1.2); cursor: pointer; }
+        .quiz-option.selected { background: rgba(255, 102, 0, 0.2); border-color: var(--secondary-color); }
+        .btn-action {
+            background: linear-gradient(135deg, var(--secondary-color), #ff9933); border: none;
+            font-weight: 700; padding: 0.75rem 1.5rem; transition: all 0.3s; color: #fff; border-radius: 8px;
+        }
+        .btn-action:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 102, 0, 0.4); color: #fff; }
+        .btn-action:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-back {
+            background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: #ccc;
+            font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.3s;
+        }
+        .btn-back:hover { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: #fff; }
+        .solution-box {
+            background: rgba(0, 204, 102, 0.08); border-left: 4px solid var(--accent-green);
+            padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; display: none;
+        }
+        .solution-box.show { display: block; animation: fadeIn 0.5s; }
+        .feedback-msg { margin-top: 1rem; padding: 1rem; border-radius: 8px; display: none; font-weight: 600; font-size: 0.95rem; }
+        .feedback-msg.success { background: rgba(0, 204, 102, 0.15); color: #00ff88; border: 1px solid var(--accent-green); }
+        .feedback-msg.error { background: rgba(204, 51, 0, 0.15); color: #ff6666; border: 1px solid #cc3300; }
+        footer { background: rgba(0, 0, 0, 0.9); border-top: 3px solid var(--secondary-color); margin-top: 4rem; padding: 2rem 0; }
+        .footer-logo { filter: drop-shadow(0 0 10px var(--secondary-color)); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) {
+            .lab-title { font-size: 1.4rem; }
+            .info-card { padding: 1.2rem; }
+            .btn-action, .btn-back { width: 100%; margin-bottom: 0.5rem; }
+        }
+        .exam-table { width: 100%; color: #fff; border-collapse: collapse; font-size: 0.9rem; }
+        .exam-table th, .exam-table td { border: 1px solid rgba(255,255,255,0.2); padding: 8px; text-align: center; }
+        .exam-table th { background: rgba(255, 102, 0, 0.2); font-family: 'Orbitron', sans-serif; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a class="navbar-brand" href="#" aria-label="Inicio">
+                <img src="assets/images/logo.png" alt="Logo" height="50" class="footer-logo" onerror="this.src='https://via.placeholder.com/50x50/ff6600/ffffff?text=EVAP'">
+                <span>PROCESOS INDUSTRIALES - SEC 603</span>
+            </a>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="container py-4">
+            <h1 class="lab-title"><i class="fas fa-industry me-3"></i>PROBLEMA 17: EVAPORADOR DE DOBLE EFECTO</h1>
+            <p class="text-center text-white mb-2">Guía interactiva paso a paso con retos de análisis (Examen Escrito Nº 2)</p>
+
+            <div class="progress-bar-custom">
+                <div class="progress-fill" id="progressBar" style="width: 8.33%;"></div>
+            </div>
+
+            <!-- PASO 1: Datos y Propiedades -->
+            <div class="step-container active" id="step1">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 1 de 12</span>
+                    <h4><i class="fas fa-table me-2"></i>Datos y Propiedades Termodinámicas</h4>
+                    <p>Alimentación (F): <strong>150.0 kg/h</strong> a 20.0 °C con <strong>12.0%</strong> de sólidos. <br>
+                    Efecto I: 90.0 °C, concentra a <strong>25.0%</strong> sólidos. <br>
+                    Efecto II: 60.0 °C (vacío), concentra a <strong>60.0%</strong> sólidos. <br>
+                    Vapor de caldera (S): <strong>100.0 kg/h</strong> saturado a 110.0 °C.</p>
+                    <table class="exam-table mt-3">
+                        <thead>
+                            <tr><th>Corriente</th><th>Temp (°C)</th><th>h_vapor (kJ/kg)</th><th>h_líquido (kJ/kg)</th><th>Cp (kJ/kg·°C)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Vapor S</td><td>110.0</td><td>2691.5</td><td>461.4</td><td>—</td></tr>
+                            <tr><td>Vapor V1</td><td>90.0</td><td>2660.1</td><td>376.9</td><td>—</td></tr>
+                            <tr><td>Vapor V2</td><td>60.0</td><td>2609.6</td><td>251.2</td><td>—</td></tr>
+                            <tr><td>Jugo F (12%)</td><td>20.0</td><td>—</td><td>—</td><td>3.85</td></tr>
+                            <tr><td>Jugo C1 (25%)</td><td>90.0</td><td>—</td><td>—</td><td>3.50</td></tr>
+                            <tr><td>Jugo C2 (60%)</td><td>60.0</td><td>—</td><td>—</td><td>2.20</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Por qué se utiliza un evaporador de doble efecto en lugar de uno de efecto simple para concentrar jugo de naranja?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q1_1" value="opt1"> Para minimizar el daño térmico a compuestos sensibles (vitamina C, aromas) y mejorar drásticamente la eficiencia energética reutilizando el vapor.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q1_1" value="opt2"> Porque el jugo de naranja no puede hervir a presión atmosférica bajo ninguna circunstancia.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q1_1" value="opt3"> Para aumentar la concentración de sólidos al 100% eliminando toda el agua en una sola etapa.</label>
+                    </div>
+                    <div id="feedback1" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-action" id="checkBtn1" onclick="checkStep(1)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next1" onclick="nextStep(2)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution1">
+                    <h5><i class="fas fa-lightbulb me-2 text-success"></i>Análisis</h5>
+                    <p>El doble efecto permite operar el segundo etapa al vacío (60°C), protegiendo la calidad del producto, mientras que el vapor generado en el primer efecto (V1) se reutiliza como fuente de calor, reduciendo el consumo de vapor fresco (S).</p>
+                </div>
+            </div>
+
+            <!-- PASO 2: Balance Global de Sólidos -->
+            <div class="step-container" id="step2">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 2 de 12</span>
+                    <h4><i class="fas fa-balance-scale me-2"></i>Balance Global de Sólidos (C1 y C2)</h4>
+                    <p>Los sólidos (azúcares) son inertes y no se evaporan: $F \cdot x_F = C_1 \cdot x_{C1} = C_2 \cdot x_{C2}$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. Si la alimentación (F) aumentara a 300.0 kg/h manteniendo las mismas concentraciones objetivo, ¿cómo cambiarían C1 y C2?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q2_1" value="opt1"> Se duplicarían proporcionalmente (C1 = 144.0 kg/h, C2 = 60.0 kg/h), ya que la relación de concentraciones es lineal.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q2_1" value="opt2"> Se mantendrían iguales porque la concentración final del producto es un requisito fijo del proceso.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q2_1" value="opt3"> Disminuirían porque el evaporador tiene una capacidad de transferencia de calor máxima e inamovible.</label>
+                    </div>
+                    <div id="feedback2" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(1)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn2" onclick="checkStep(2)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next2" onclick="nextStep(3)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution2">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>$$C_1 = \frac{F \cdot x_F}{x_{C1}} = \frac{150.0 \times 0.12}{0.25} = 72.0 \text{ kg/h}$$</p>
+                    <p>$$C_2 = \frac{F \cdot x_F}{x_{C2}} = \frac{150.0 \times 0.12}{0.60} = 30.0 \text{ kg/h}$$</p>
+                </div>
+            </div>
+
+            <!-- PASO 3: Balance de Materia - Primer Efecto -->
+            <div class="step-container" id="step3">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 3 de 12</span>
+                    <h4><i class="fas fa-tint me-2"></i>Balance de Materia: Primer Efecto (V1)</h4>
+                    <p>Balance global en el Efecto I: $F = V_1 + C_1$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Qué sucedería con el flujo de vapor V1 si el primer efecto operara a una presión más alta (ej. 120°C en lugar de 90°C)?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q3_1" value="opt1"> El flujo V1 sería similar en masa, pero su entalpía (calor latente) sería menor, entregando menos energía útil al segundo efecto.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q3_1" value="opt2"> V1 aumentaría drásticamente en masa porque el agua se evapora "más fácil" a mayor presión.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q3_1" value="opt3"> No se generaría vapor V1 porque el jugo se quemaría instantáneamente a esa temperatura.</label>
+                    </div>
+                    <div id="feedback3" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(2)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn3" onclick="checkStep(3)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next3" onclick="nextStep(4)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution3">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>$$V_1 = F - C_1 = 150.0 - 72.0 = 78.0 \text{ kg/h}$$</p>
+                </div>
+            </div>
+
+            <!-- PASO 4: Balance de Materia - Segundo Efecto -->
+            <div class="step-container" id="step4">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 4 de 12</span>
+                    <h4><i class="fas fa-wind me-2"></i>Balance de Materia: Segundo Efecto (V2)</h4>
+                    <p>Balance global en el Efecto II: $C_1 = V_2 + C_2$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Por qué el segundo efecto opera al vacío (60°C) en lugar de a presión atmosférica?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q4_1" value="opt1"> Para reducir la temperatura de ebullición y proteger los compuestos volátiles de aroma, sabor y la vitamina C del jugo.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q4_1" value="opt2"> Porque el vacío hace que el agua se evapore sin necesidad de aportar calor latente.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q4_1" value="opt3"> Para aumentar la presión del vapor V2 y hacerlo más útil para otros procesos de la planta.</label>
+                    </div>
+                    <div id="feedback4" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(3)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn4" onclick="checkStep(4)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next4" onclick="nextStep(5)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution4">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>$$V_2 = C_1 - C_2 = 72.0 - 30.0 = 42.0 \text{ kg/h}$$</p>
+                </div>
+            </div>
+
+            <!-- PASO 5: Resumen de Flujos Másicos -->
+            <div class="step-container" id="step5">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 5 de 12</span>
+                    <h4><i class="fas fa-list-ol me-2"></i>Resumen de Flujos Másicos</h4>
+                    <table class="exam-table mt-3">
+                        <thead>
+                            <tr><th>Corriente</th><th>Flujo (kg/h)</th><th>% Sólidos</th><th>Temperatura (°C)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Alimentación (F)</td><td>150.0</td><td>12.0%</td><td>20.0</td></tr>
+                            <tr><td>Concentrado 1 (C1)</td><td>72.0</td><td>25.0%</td><td>90.0</td></tr>
+                            <tr><td>Concentrado 2 (C2)</td><td>30.0</td><td>60.0%</td><td>60.0</td></tr>
+                            <tr><td>Vapor Efecto 1 (V1)</td><td>78.0</td><td>0%</td><td>90.0</td></tr>
+                            <tr><td>Vapor Efecto 2 (V2)</td><td>42.0</td><td>0%</td><td>60.0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. En un balance de materia global del sistema completo, ¿cuál es el flujo total de agua evaporada (V1 + V2) y qué representa?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q5_1" value="opt1"> 120.0 kg/h (78.0 + 42.0). Representa toda el agua removida del jugo para alcanzar la concentración final deseada.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q5_1" value="opt2"> 150.0 kg/h, porque toda el agua de la alimentación debe ser evaporada para obtener un producto estable.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q5_1" value="opt3"> 100.0 kg/h, ya que es igual al flujo de vapor de caldera (S) suministrado.</label>
+                    </div>
+                    <div id="feedback5" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(4)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn5" onclick="checkStep(5)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next5" onclick="nextStep(6)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution5">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>$$Agua_{evaporada} = V_1 + V_2 = 78.0 + 42.0 = 120.0 \text{ kg/h}$$</p>
+                    <p>Verificación: $F - C_2 = 150.0 - 30.0 = 120.0 \text{ kg/h}$ (Coincide perfectamente).</p>
+                </div>
+            </div>
+
+            <!-- PASO 6: Balance de Energía - Primer Efecto (Planteamiento) -->
+            <div class="step-container" id="step6">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 6 de 12</span>
+                    <h4><i class="fas fa-bolt me-2"></i>Balance de Energía: Primer Efecto (Planteamiento)</h4>
+                    <p>Ecuación: $F \cdot c_{p,F} \cdot T_F + S \cdot (h_S - h_{L,S}) = C_1 \cdot c_{p,C1} \cdot T_{C1} + V_1 \cdot h_{V1} + Q_1$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Por qué el término del vapor de caldera se expresa como $S \cdot (h_S - h_{L,S})$ en lugar de solo $S \cdot h_S$?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q6_1" value="opt1"> Porque representa el calor latente de condensación liberado por el vapor, que es la energía útil real transferida al jugo.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q6_1" value="opt2"> Porque el líquido condensado sale a 0°C y por lo tanto su entalpía se considera cero en el balance.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q6_1" value="opt3"> Porque la entalpía del líquido es negativa y debe restarse para equilibrar la ecuación termodinámica.</label>
+                    </div>
+                    <div id="feedback6" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(5)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn6" onclick="checkStep(6)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next6" onclick="nextStep(7)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution6">
+                    <h5><i class="fas fa-lightbulb me-2 text-success"></i>Análisis</h5>
+                    <p>El vapor de caldera (S) entra como vapor saturado y sale como líquido saturado a la misma temperatura. La diferencia $(h_S - h_{L,S})$ es exactamente su calor latente de condensación ($\lambda$), que es el calor que cede al sistema.</p>
+                </div>
+            </div>
+
+            <!-- PASO 7: Balance de Energía - Primer Efecto (Cálculo Q1) -->
+            <div class="step-container" id="step7">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 7 de 12</span>
+                    <h4><i class="fas fa-calculator me-2"></i>Balance de Energía: Primer Efecto (Cálculo de Q1)</h4>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. Si las pérdidas de calor Q1 fueran el doble debido a un mal aislamiento, ¿qué pasaría con la concentración del jugo C1 asumiendo que el vapor S se mantiene constante?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q7_1" value="opt1"> La concentración de C1 disminuiría, ya que habría menos energía disponible para evaporar el agua (el flujo V1 bajaría).</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q7_1" value="opt2"> La concentración de C1 aumentaría porque el jugo retendría más calor y se evaporaría más rápido.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q7_1" value="opt3"> No tendría ningún efecto, el sistema se autoajusta manteniendo los flujos másicos constantes.</label>
+                    </div>
+                    <div id="feedback7" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(6)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn7" onclick="checkStep(7)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next7" onclick="nextStep(8)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution7">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>Entrada: $150.0 \times 3.85 \times 20.0 = 11,550.0 \text{ kJ/h}$</p>
+                    <p>Vapor S: $100.0 \times (2691.5 - 461.4) = 223,010.0 \text{ kJ/h}$</p>
+                    <p>Salida C1: $72.0 \times 3.50 \times 90.0 = 22,680.0 \text{ kJ/h}$</p>
+                    <p>Salida V1: $78.0 \times 2660.1 = 207,487.8 \text{ kJ/h}$</p>
+                    <p>$$Q_1 = 11,550.0 + 223,010.0 - 22,680.0 - 207,487.8 = \mathbf{4,392.2 \text{ kJ/h}}$$</p>
+                </div>
+            </div>
+
+            <!-- PASO 8: Balance de Energía - Segundo Efecto (Planteamiento) -->
+            <div class="step-container" id="step8">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 8 de 12</span>
+                    <h4><i class="fas fa-bolt me-2"></i>Balance de Energía: Segundo Efecto (Planteamiento)</h4>
+                    <p>Ecuación: $C_1 \cdot c_{p,C1} \cdot T_{C1} + V_1 \cdot (h_{V1} - h_{L,V1}) = C_2 \cdot c_{p,C2} \cdot T_{C2} + V_2 \cdot h_{V2} + Q_2$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Por qué el vapor V1 actúa como fuente de calor en el segundo efecto y se representa con su calor latente $(h_{V1} - h_{L,V1})$?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q8_1" value="opt1"> Porque V1 se condensa en los tubos del segundo efecto, liberando su calor latente para evaporar el agua del jugo en el Efecto II.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q8_1" value="opt2"> Porque V1 se mezcla directamente con el jugo, aumentando su temperatura y diluyendo el producto.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q8_1" value="opt3"> Porque el vapor V1 tiene una presión mayor que la del segundo efecto y se expande adiabáticamente.</label>
+                    </div>
+                    <div id="feedback8" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(7)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn8" onclick="checkStep(8)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next8" onclick="nextStep(9)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution8">
+                    <h5><i class="fas fa-lightbulb me-2 text-success"></i>Análisis</h5>
+                    <p>Esta es la esencia del "doble efecto": el vapor generado en el primer efecto no se desperdicia, sino que se condensa en el segundo efecto, cediendo su calor latente para impulsar una segunda evaporación sin consumir vapor fresco adicional.</p>
+                </div>
+            </div>
+
+            <!-- PASO 9: Balance de Energía - Segundo Efecto (Cálculo Q2) -->
+            <div class="step-container" id="step9">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 9 de 12</span>
+                    <h4><i class="fas fa-calculator me-2"></i>Balance de Energía: Segundo Efecto (Cálculo de Q2)</h4>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. Según los resultados, Q2 (87,206.4 kJ/h) es mucho mayor que Q1 (4,392.2 kJ/h). ¿Cuál es la razón principal según el documento?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q9_1" value="opt1"> Cualquier desbalance térmico o pérdida se magnifica en esta etapa debido a las condiciones de vacío, menor temperatura y la transferencia del alto calor latente de V1.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q9_1" value="opt2"> Porque el segundo efecto tiene un área de transferencia de calor el doble de grande que el primero.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q9_1" value="opt3"> Porque el jugo en el segundo efecto tiene una capacidad calorífica mayor que en el primero.</label>
+                    </div>
+                    <div id="feedback9" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(8)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn9" onclick="checkStep(9)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next9" onclick="nextStep(10)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution9">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>Entrada C1: $72.0 \times 3.50 \times 90.0 = 22,680.0 \text{ kJ/h}$</p>
+                    <p>Vapor V1: $78.0 \times (2660.1 - 376.9) = 178,089.6 \text{ kJ/h}$</p>
+                    <p>Salida C2: $30.0 \times 2.20 \times 60.0 = 3,960.0 \text{ kJ/h}$</p>
+                    <p>Salida V2: $42.0 \times 2609.6 = 109,603.2 \text{ kJ/h}$</p>
+                    <p>$$Q_2 = 22,680.0 + 178,089.6 - 3,960.0 - 109,603.2 = \mathbf{87,206.4 \text{ kJ/h}}$$</p>
+                </div>
+            </div>
+
+            <!-- PASO 10: Economía de Vapor -->
+            <div class="step-container" id="step10">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 10 de 12</span>
+                    <h4><i class="fas fa-chart-line me-2"></i>Economía de Vapor y Eficiencia</h4>
+                    <p>Economía ($E$) = $\frac{\text{Agua total evaporada}}{\text{Vapor de caldera consumido}} = \frac{V_1 + V_2}{S}$</p>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <h5 class="mb-3"><i class="fas fa-brain me-2"></i>Reto de Análisis</h5>
+                    <div class="mb-4">
+                        <p class="mb-2">1. ¿Cómo se podría aumentar la economía de vapor (E) de este sistema sin cambiar la alimentación ni las concentraciones?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q10_1" value="opt1"> Agregando un tercer efecto, reutilizando el vapor V2 para calentar un nuevo efecto, acercando E a 2.0 o más.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q10_1" value="opt2"> Aumentando la temperatura del vapor de caldera S a 200°C para que tenga más energía.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q10_1" value="opt3"> Disminuyendo la concentración final del jugo al 10% para evaporar menos agua.</label>
+                    </div>
+                    <div id="feedback10" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(9)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn10" onclick="checkStep(10)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next10" onclick="nextStep(11)" style="background: linear-gradient(135deg, #00cc66, #009955);">Ir a Teoría <i class="fas fa-book ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution10">
+                    <h5><i class="fas fa-calculator me-2 text-success"></i>Solución</h5>
+                    <p>$$E = \frac{V_1 + V_2}{S} = \frac{78.0 + 42.0}{100.0} = \frac{120.0}{100.0} = \mathbf{1.20}$$</p>
+                    <p>Esto significa que se evaporan 1.20 kg de agua por cada 1 kg de vapor de caldera consumido.</p>
+                </div>
+            </div>
+
+            <!-- PASO 11: Teoría (Fundamentos) -->
+            <div class="step-container" id="step11">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 11 de 12</span>
+                    <h4><i class="fas fa-chalkboard-teacher me-2"></i>Preguntas de Teoría (Fundamentos) - 2 ptos</h4>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <div class="mb-4">
+                        <p class="mb-2"><strong>1.</strong> ¿Por qué es crucial la operación a 60°C en el segundo efecto para el jugo de naranja?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q11_1" value="opt1"> Previene la degradación térmica de vitaminas (como la vitamina C) y compuestos volátiles responsables del aroma y sabor fresco.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q11_1" value="opt2"> Porque a temperaturas más altas el azúcar se cristaliza y obstruye las tuberías del evaporador.</label>
+                    </div>
+                    <div class="mb-4">
+                        <p class="mb-2"><strong>2.</strong> En el balance de materia, ¿por qué se considera que el componente sólido (azúcares) es inerte?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q11_2" value="opt1"> Porque no se evapora ni se degrada significativamente, por lo que su masa se conserva intacta a través de todos los efectos ($F \cdot x_F = C_1 \cdot x_{C1} = C_2 \cdot x_{C2}$).</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q11_2" value="opt2"> Porque los sólidos tienen una capacidad calorífica de cero y no participan en el balance de energía.</label>
+                    </div>
+                    <div id="feedback11" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(10)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn11" onclick="checkStepTheory(11)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="next11" onclick="nextStep(12)" style="background: linear-gradient(135deg, #00cc66, #009955);">Siguiente <i class="fas fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution11">
+                    <h5><i class="fas fa-lightbulb me-2 text-success"></i>Retroalimentación Teórica</h5>
+                    <p><strong>1.</strong> La sensibilidad térmica de los alimentos es la razón principal para usar vacío. Bajar la presión baja el punto de ebullición, permitiendo la evaporación sin "cocinar" el producto.</p>
+                    <p><strong>2.</strong> La conservación de la masa de solutos es la piedra angular de los balances en operaciones de separación por evaporación. Solo el solvente (agua) cambia de fase.</p>
+                </div>
+            </div>
+
+            <!-- PASO 12: Teoría (Sostenibilidad y Retos) -->
+            <div class="step-container" id="step12">
+                <div class="info-card">
+                    <span class="badge bg-primary mb-2"><i class="fas fa-info-circle me-1"></i> Paso 12 de 12</span>
+                    <h4><i class="fas fa-leaf me-2"></i>Preguntas de Teoría (Sostenibilidad y Retos) - 2 ptos</h4>
+                </div>
+                <div class="info-card" style="border-left-color: var(--secondary-color);">
+                    <div class="mb-4">
+                        <p class="mb-2"><strong>3.</strong> Desde la perspectiva de sostenibilidad, ¿cuál es la principal ventaja del evaporador de doble efecto frente al de efecto simple?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q12_1" value="opt1"> Reduce drásticamente el consumo de vapor de caldera (energía primaria) y la huella de carbono por kg de producto, al reutilizar el calor latente del vapor generado.</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q12_1" value="opt2"> Elimina por completo la necesidad de utilizar agua de enfriamiento en los condensadores del sistema.</label>
+                    </div>
+                    <div class="mb-4">
+                        <p class="mb-2"><strong>4.</strong> Si se detecta que la concentración final C2 es menor a 60.0%, ¿cuál podría ser una causa operativa relacionada con el sistema de vacío del segundo efecto?</p>
+                        <label class="quiz-option" data-correct="true"><input type="radio" name="q12_2" value="opt1"> Una fuga de aire o mal funcionamiento de la bomba de vacío, lo que aumenta la presión, eleva la temperatura de ebullición y reduce la cantidad de agua evaporada (V2).</label>
+                        <label class="quiz-option" data-correct="false"><input type="radio" name="q12_2" value="opt2"> Un exceso de vacío que hace que el agua se evapore demasiado rápido, diluyendo el producto final.</label>
+                    </div>
+                    <div id="feedback12" class="feedback-msg"></div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <button class="btn btn-back" onclick="prevStep(11)"><i class="fas fa-arrow-left me-2"></i>Regresar</button>
+                        <button class="btn btn-action" id="checkBtn12" onclick="checkStepTheory(12)"><i class="fas fa-check-circle me-2"></i>Verificar</button>
+                        <button class="btn btn-action d-none" id="finishBtn" onclick="finishLab()" style="background: linear-gradient(135deg, #00cc66, #009955);">Finalizar Estudio <i class="fas fa-flag-checkered ms-2"></i></button>
+                    </div>
+                </div>
+                <div class="solution-box" id="solution12">
+                    <h5><i class="fas fa-trophy me-2 text-warning"></i>¡Estudio Completado!</h5>
+                    <p><strong>3.</strong> La reutilización de la energía (cascada de calor) es el principio fundamental de la ingeniería sostenible en operaciones unitarias térmicas. Un efecto simple tendría una economía de ~0.8-0.9, mientras que el doble efecto alcanza 1.2 o más.</p>
+                    <p><strong>4.</strong> El vacío es delicado. Si la presión sube, la temperatura de saturación sube. Si el jugo ya está a 90°C viniendo del primer efecto, y la nueva temperatura de ebullición es 95°C, el jugo ni siquiera hervirá, deteniendo la evaporación V2.</p>
+                    <p class="mt-3 text-success"><em>¡Has dominado los balances de materia, energía y los conceptos teóricos clave para la Evaporación de Doble Efecto!</em></p>
+                    <p class="mt-2 text-info">Resultado Final: $Q_{proceso\_neto} \approx \text{Sistema optimizado con } E = 1.20$</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <img src="assets/images/logo.png" alt="Logo" height="50" class="footer-logo mb-2" onerror="this.src='https://via.placeholder.com/50x50/ff6600/ffffff?text=EVAP'">
+                    <p class="text-white mb-0">
+                        Herramientas para el estudio de procesos industriales.<br>
+                        <small>Facultad de Ingeniería - Sección 603 (2026-2)</small>
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="text-white mb-0">
+                        <i class="fas fa-university me-2"></i>Procesos Industriales<br>
+                        <small>Examen Escrito Nº 2</small>
+                    </p>
+                </div>
+            </div>
+            <hr class="my-3" style="border-color: var(--secondary-color); opacity: 0.3;">
+            <div class="text-center text-white">
+                <small>&copy; 2026 Procesos Industriales. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Barajar opciones aleatoriamente (Fisher-Yates)
+        function shuffleOptions(questionName) {
+            const container = document.querySelector(`input[name="${questionName}"]`)?.closest('div.mb-4');
+            if (!container) return;
+            const options = Array.from(container.querySelectorAll('.quiz-option'));
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            options.forEach(opt => container.appendChild(opt));
+        }
+
+        // Barajar al cargar para todos los pasos
+        for (let s = 1; s <= 12; s++) {
+            if (s === 11 || s === 12) {
+                shuffleOptions(`q${s}_1`);
+                shuffleOptions(`q${s}_2`);
+            } else {
+                shuffleOptions(`q${s}_1`);
+            }
+        }
+
+        // Highlight visual al seleccionar
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const name = this.querySelector('input').name;
+                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                    radio.parentElement.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+            });
+        });
+
+        // Verificación para pasos de cálculo (1 respuesta)
+        function checkStep(stepNum) {
+            let feedbackEl = document.getElementById(`feedback${stepNum}`);
+            let checkBtn = document.getElementById(`checkBtn${stepNum}`);
+            let nextBtn = document.getElementById(`next${stepNum}`);
+            let solutionBox = document.getElementById(`solution${stepNum}`);
+
+            const selected = document.querySelector(`input[name="q${stepNum}_1"]:checked`);
+            let allCorrect = selected ? selected.closest('.quiz-option').dataset.correct === 'true' : false;
+
+            if (allCorrect) {
+                feedbackEl.className = 'feedback-msg success';
+                feedbackEl.innerHTML = '<i class="fas fa-check-circle me-2"></i>¡Correcto! Avanzando al siguiente paso.';
+                feedbackEl.style.display = 'block';
+                solutionBox.classList.add('show');
+                nextBtn.classList.remove('d-none');
+                checkBtn.disabled = true;
+                checkBtn.innerHTML = '<i class="fas fa-check me-2"></i>Verificado';
+                if (window.MathJax) MathJax.typesetPromise([solutionBox]);
+            } else {
+                feedbackEl.className = 'feedback-msg error';
+                feedbackEl.innerHTML = '<i class="fas fa-times-circle me-2"></i>Incorrecto. Revisa la teoría del paso y vuelve a intentar.';
+                feedbackEl.style.display = 'block';
+                solutionBox.classList.remove('show');
+                nextBtn.classList.add('d-none');
+            }
+        }
+
+        // Verificación para pasos de teoría (2 respuestas requeridas)
+        function checkStepTheory(stepNum) {
+            let feedbackEl = document.getElementById(`feedback${stepNum}`);
+            let checkBtn = document.getElementById(`checkBtn${stepNum}`);
+            let nextBtn = document.getElementById(stepNum === 12 ? 'finishBtn' : `next${stepNum}`);
+            let solutionBox = document.getElementById(`solution${stepNum}`);
+
+            const sel1 = document.querySelector(`input[name="q${stepNum}_1"]:checked`);
+            const sel2 = document.querySelector(`input[name="q${stepNum}_2"]:checked`);
+            
+            let correct1 = sel1 ? sel1.closest('.quiz-option').dataset.correct === 'true' : false;
+            let correct2 = sel2 ? sel2.closest('.quiz-option').dataset.correct === 'true' : false;
+
+            if (correct1 && correct2) {
+                feedbackEl.className = 'feedback-msg success';
+                feedbackEl.innerHTML = '<i class="fas fa-check-circle me-2"></i>¡Excelente! Dominas los conceptos teóricos.';
+                feedbackEl.style.display = 'block';
+                solutionBox.classList.add('show');
+                nextBtn.classList.remove('d-none');
+                checkBtn.disabled = true;
+                checkBtn.innerHTML = '<i class="fas fa-check me-2"></i>Verificado';
+            } else {
+                feedbackEl.className = 'feedback-msg error';
+                feedbackEl.innerHTML = '<i class="fas fa-times-circle me-2"></i>Alguna respuesta es incorrecta. Ambas deben ser correctas para avanzar.';
+                feedbackEl.style.display = 'block';
+                solutionBox.classList.remove('show');
+                nextBtn.classList.add('d-none');
+            }
+        }
+
+        function nextStep(nextStepNum) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${nextStepNum}`).classList.add('active');
+            const progress = (nextStepNum / 12) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(prevStepNum) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step${prevStepNum}`).classList.add('active');
+            const progress = (prevStepNum / 12) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function finishLab() {
+            const modalHtml = `
+                <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" style="background: #1a1a2e; border: 1px solid var(--accent-green); color: #fff;">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title" style="color: var(--accent-green);"><i class="fas fa-award me-2"></i>¡Preparación Completada!</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                                <p>Has completado exitosamente los 12 pasos del balance de materia, energía y teoría para el Evaporador de Doble Efecto.</p>
+                                <p class="text-white">¡Estás listo para el Examen Escrito Nº 2 de la Sección 603!</p>
+                                <p class="text-info mt-3">Economía de Vapor lograda: <strong>E = 1.20 kg agua / kg vapor</strong></p>
+                            </div>
+                            <div class="modal-footer border-top-0 justify-content-center">
+                                <button type="button" class="btn btn-action" data-bs-dismiss="modal" onclick="location.reload()">
+                                    <i class="fas fa-redo me-2"></i>Repasar de nuevo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            const modal = new bootstrap.Modal(document.getElementById('successModal'));
+            modal.show();
+        }
+    </script>
+</body>
+</html>
